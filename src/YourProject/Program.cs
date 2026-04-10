@@ -43,4 +43,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
+app.MapGet("/health", () => "Hello, World!");
+
 app.Run();
