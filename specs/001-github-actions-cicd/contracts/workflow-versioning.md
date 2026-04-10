@@ -1,8 +1,11 @@
-# Contract: Versioning Workflow
+# Contract: Versioning Workflow *(superseded)*
+
+> **⚠️ This contract is superseded by [`specs/002-auto-version-pr/contracts/workflow-versioning-pr.md`](../../002-auto-version-pr/contracts/workflow-versioning-pr.md).**
+> The workflow now uses a PR-based approach instead of direct push to `main`. Refer to the new contract for the current behavior.
 
 **Workflow name**: `Versioning`  
 **File**: `.github/workflows/versioning.yml`  
-**Purpose**: Auto-increment the patch version in `version.json` on every developer-initiated push to main, and commit the change back to the branch.
+**Purpose**: ~~Auto-increment the patch version in `version.json` and commit directly to `main`.~~ (See new contract — now creates a PR instead.)
 
 ---
 
