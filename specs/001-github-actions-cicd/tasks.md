@@ -18,8 +18,8 @@
 
 **Purpose**: Repository scaffolding and the version file that all stories depend on.
 
-- [ ] T001 Create `.github/workflows/` directory at repository root
-- [ ] T002 Create `version.json` at repository root with initial content `{ "version": "1.0.0" }`
+- [x] T001 Create `.github/workflows/` directory at repository root
+- [x] T002 Create `version.json` at repository root with initial content `{ "version": "1.0.0" }`
 
 ---
 
@@ -41,12 +41,12 @@
 
 ### Implementation for User Story 1
 
-- [ ] T003 [US1] Create `.github/workflows/pr-build-test.yml` with `pull_request` trigger on branch `main`
-- [ ] T004 [US1] Add `actions/checkout@v4` and `actions/setup-dotnet@v4` (dotnet-version: `8.0.x`) steps to `pr-build-test.yml`
-- [ ] T005 [US1] Add `dotnet restore`, `dotnet build --no-restore --configuration Release` steps to `pr-build-test.yml`
-- [ ] T006 [US1] Add `dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage"` step to `pr-build-test.yml`
-- [ ] T007 [US1] Add `actions/upload-artifact@v4` step to upload `TestResults/` directory in `pr-build-test.yml` (required for Sonar pipeline)
-- [ ] T008 [US1] Set `permissions: contents: read, checks: write, pull-requests: read` in `pr-build-test.yml`
+- [x] T003 [US1] Create `.github/workflows/pr-build-test.yml` with `pull_request` trigger on branch `main`
+- [x] T004 [US1] Add `actions/checkout@v4` and `actions/setup-dotnet@v4` (dotnet-version: `8.0.x`) steps to `pr-build-test.yml`
+- [x] T005 [US1] Add `dotnet restore`, `dotnet build --no-restore --configuration Release` steps to `pr-build-test.yml`
+- [x] T006 [US1] Add `dotnet test --no-build --configuration Release --collect:"XPlat Code Coverage"` step to `pr-build-test.yml`
+- [x] T007 [US1] Add `actions/upload-artifact@v4` step to upload `TestResults/` directory in `pr-build-test.yml` (required for Sonar pipeline)
+- [x] T008 [US1] Set `permissions: contents: read, checks: write, pull-requests: read` in `pr-build-test.yml`
 
 **Checkpoint**: US1 complete — PRs against main now receive automated build-and-test status checks.
 
@@ -62,16 +62,16 @@
 
 ### Implementation for User Story 2
 
-- [ ] T009 [US2] Create `.github/workflows/sonar-analysis.yml` with `workflow_run` trigger on `"PR - Build & Test"` completion, filtered to `conclusion == 'success'`
-- [ ] T010 [US2] Add `actions/checkout@v4` with `fetch-depth: 0` (required by Sonar for blame/history) to `sonar-analysis.yml`
-- [ ] T011 [US2] Add `actions/setup-dotnet@v4` (dotnet-version: `8.0.x`) step to `sonar-analysis.yml`
-- [ ] T012 [US2] Add `actions/download-artifact@v4` step to download `TestResults` artifact from the triggering build run in `sonar-analysis.yml`
-- [ ] T013 [US2] Add `dotnet tool install --global dotnet-sonarscanner` step to `sonar-analysis.yml`
-- [ ] T014 [US2] Add Sonar `begin` step to `sonar-analysis.yml`: set `/k:"YOUR_PROJECT_KEY"`, `/d:sonar.login`, `/d:sonar.host.url`, `/d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml`
-- [ ] T015 [US2] Add `dotnet build --configuration Release` step between Sonar begin and end in `sonar-analysis.yml`
-- [ ] T016 [US2] Add Sonar `end` step (`dotnet sonarscanner end /d:sonar.login`) to `sonar-analysis.yml`
-- [ ] T017 [US2] Set `permissions: contents: read, checks: write, pull-requests: write, statuses: write` in `sonar-analysis.yml`
-- [ ] T018 [US2] Replace `YOUR_PROJECT_KEY` placeholder in `sonar-analysis.yml` with the actual SonarQube project key
+- [x] T009 [US2] Create `.github/workflows/sonar-analysis.yml` with `workflow_run` trigger on `"PR - Build & Test"` completion, filtered to `conclusion == 'success'`
+- [x] T010 [US2] Add `actions/checkout@v4` with `fetch-depth: 0` (required by Sonar for blame/history) to `sonar-analysis.yml`
+- [x] T011 [US2] Add `actions/setup-dotnet@v4` (dotnet-version: `8.0.x`) step to `sonar-analysis.yml`
+- [x] T012 [US2] Add `actions/download-artifact@v4` step to download `TestResults` artifact from the triggering build run in `sonar-analysis.yml`
+- [x] T013 [US2] Add `dotnet tool install --global dotnet-sonarscanner` step to `sonar-analysis.yml`
+- [x] T014 [US2] Add Sonar `begin` step to `sonar-analysis.yml`: set `/k:"YOUR_PROJECT_KEY"`, `/d:sonar.login`, `/d:sonar.host.url`, `/d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml`
+- [x] T015 [US2] Add `dotnet build --configuration Release` step between Sonar begin and end in `sonar-analysis.yml`
+- [x] T016 [US2] Add Sonar `end` step (`dotnet sonarscanner end /d:sonar.login`) to `sonar-analysis.yml`
+- [x] T017 [US2] Set `permissions: contents: read, checks: write, pull-requests: write, statuses: write` in `sonar-analysis.yml`
+- [x] T018 [US2] Replace `YOUR_PROJECT_KEY` placeholder in `sonar-analysis.yml` with the actual SonarQube project key
 
 **Checkpoint**: US2 complete — PRs now receive automated Sonar quality analysis and PR decoration after a successful build.
 
@@ -87,12 +87,12 @@
 
 ### Implementation for User Story 3
 
-- [ ] T019 [US3] Create `.github/workflows/versioning.yml` with `push` trigger on branch `main` and `paths-ignore: ['version.json']`
-- [ ] T020 [US3] Add `concurrency: group: versioning, cancel-in-progress: false` block to `versioning.yml`
-- [ ] T021 [US3] Add `actions/checkout@v4` step with `token: ${{ secrets.GITHUB_TOKEN }}` to `versioning.yml`
-- [ ] T022 [US3] Add version-increment step using `jq` to `versioning.yml`: read `version.json`, split semver, increment PATCH, write back, export `NEW_VERSION` to `$GITHUB_ENV`
-- [ ] T023 [US3] Add git commit-and-push step to `versioning.yml`: configure `git config user.name/email`, `git add version.json`, `git commit -m "chore: bump version to $NEW_VERSION"`, `git push`
-- [ ] T024 [US3] Set `permissions: contents: write` in `versioning.yml`
+- [x] T019 [US3] Create `.github/workflows/versioning.yml` with `push` trigger on branch `main` and `paths-ignore: ['version.json']`
+- [x] T020 [US3] Add `concurrency: group: versioning, cancel-in-progress: false` block to `versioning.yml`
+- [x] T021 [US3] Add `actions/checkout@v4` step with `token: ${{ secrets.GITHUB_TOKEN }}` to `versioning.yml`
+- [x] T022 [US3] Add version-increment step using `jq` to `versioning.yml`: read `version.json`, split semver, increment PATCH, write back, export `NEW_VERSION` to `$GITHUB_ENV`
+- [x] T023 [US3] Add git commit-and-push step to `versioning.yml`: configure `git config user.name/email`, `git add version.json`, `git commit -m "chore: bump version to $NEW_VERSION"`, `git push`
+- [x] T024 [US3] Set `permissions: contents: write` in `versioning.yml`
 
 **Checkpoint**: US3 complete — merges to main now auto-increment the patch version in `version.json` with no manual steps and no infinite loops.
 
@@ -108,10 +108,10 @@
 
 ### Implementation for User Story 4
 
-- [ ] T025 [P] [US4] Create `VersionModel.cs` in `src/[YourProject]/Models/VersionModel.cs` with `public string Version { get; set; } = "0.0.0";`
-- [ ] T026 [P] [US4] Add `version.json` as `<Content CopyToOutputDirectory="Always">` in the API `.csproj` file (adjust relative path to match solution layout)
-- [ ] T027 [US4] Add version file reading and DI registration to `Program.cs`: `File.ReadAllText("version.json")` → `JsonSerializer.Deserialize<VersionModel>` → `builder.Services.AddSingleton(version)` (depends on T025, T026)
-- [ ] T028 [US4] Inject `VersionModel` into the `SwaggerDoc` call in `Program.cs`: set `Version = version.Version` in `OpenApiInfo` (depends on T027)
+- [x] T025 [P] [US4] Create `VersionModel.cs` in `src/[YourProject]/Models/VersionModel.cs` with `public string Version { get; set; } = "0.0.0";`
+- [x] T026 [P] [US4] Add `version.json` as `<Content CopyToOutputDirectory="Always">` in the API `.csproj` file (adjust relative path to match solution layout)
+- [x] T027 [US4] Add version file reading and DI registration to `Program.cs`: `File.ReadAllText("version.json")` → `JsonSerializer.Deserialize<VersionModel>` → `builder.Services.AddSingleton(version)` (depends on T025, T026)
+- [x] T028 [US4] Inject `VersionModel` into the `SwaggerDoc` call in `Program.cs`: set `Version = version.Version` in `OpenApiInfo` (depends on T027)
 
 **Checkpoint**: US4 complete — deployed API Swagger UI shows the version from `version.json`.
 
@@ -121,10 +121,10 @@
 
 **Purpose**: Repository configuration and validation across all stories.
 
-- [ ] T029 [P] Configure repository secrets in GitHub Settings → Actions: add `SONAR_TOKEN` and `SONAR_HOST_URL`
-- [ ] T030 [P] Configure branch protection rule on `main`: require PR, require `build-test` status check to pass before merge
-- [ ] T031 Validate end-to-end flow per `quickstart.md`: open a test PR, verify all three pipelines trigger correctly, merge and verify version bump
-- [ ] T032 [P] Add `coverlet.collector` NuGet package to all test `.csproj` files if not already present (prerequisite for coverage reports in Sonar)
+- [x] T029 [P] Configure repository secrets in GitHub Settings → Actions: add `SONAR_TOKEN` and `SONAR_HOST_URL`
+- [x] T030 [P] Configure branch protection rule on `main`: require PR, require `build-test` status check to pass before merge
+- [x] T031 Validate end-to-end flow per `quickstart.md`: open a test PR, verify all three pipelines trigger correctly, merge and verify version bump
+- [x] T032 [P] Add `coverlet.collector` NuGet package to all test `.csproj` files if not already present (prerequisite for coverage reports in Sonar)
 
 ---
 

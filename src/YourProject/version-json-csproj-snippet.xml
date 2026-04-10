@@ -1,0 +1,15 @@
+<!--
+  Add this ItemGroup to your API .csproj to ensure version.json is copied
+  to the build output directory. Adjust the relative path to version.json
+  based on where your .csproj lives relative to the repo root.
+
+  Example: if .csproj is at  src/YourProject/YourProject.csproj
+           and version.json is at  version.json (repo root)
+           then the relative path is  ..\..\version.json
+-->
+<ItemGroup>
+  <Content Include="..\..\version.json">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Link>version.json</Link>
+  </Content>
+</ItemGroup>
