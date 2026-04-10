@@ -1,0 +1,6 @@
+# Spec Kit (Python/UV artifacts)
+.specify/.venv/
+.specify/.python-version
+.specify/plan_storage/
+__pycache__/
+*.pyc
