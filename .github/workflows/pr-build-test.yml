@@ -9,6 +9,9 @@ permissions:
   checks: write
   pull-requests: read
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-test:
     runs-on: ubuntu-latest
@@ -21,6 +24,7 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
+          cache: true
 
       - name: Restore dependencies
         run: dotnet restore
@@ -38,3 +42,4 @@ jobs:
           name: coverage-reports
           path: '**/TestResults/**/*.xml'
           retention-days: 1
+          if-no-files-found: ignore
