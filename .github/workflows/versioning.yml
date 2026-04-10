@@ -1,0 +1,47 @@
+name: Versioning
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'version.json'
+
+concurrency:
+  group: versioning
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Increment patch version
+        run: |
+          VERSION=$(jq -r '.version' version.json)
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          PATCH=$((PATCH + 1))
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+
+          jq --arg v "$NEW_VERSION" '.version = $v' version.json > tmp.json && mv tmp.json version.json
+
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Commit version bump
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add version.json
+          git commit -m "chore: bump version to $NEW_VERSION"
+          git push

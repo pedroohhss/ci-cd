@@ -1,0 +1,22 @@
+# Spec Kit (Python/UV artifacts)
+.specify/.venv/
+.specify/.python-version
+.specify/plan_storage/
+__pycache__/
+*.pyc
+
+# .NET / C#
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.nupkg
+
+# Universal
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+.env
+.env.*
